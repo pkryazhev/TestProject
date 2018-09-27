@@ -1,46 +1,28 @@
 package Soglasie;
 
-import java.io.IOException;
-import java.net.URL;
-
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.Capabilities;
-
+import com.codeborne.selenide.testng.ScreenShooter;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
-
-import ru.stqa.selenium.factory.WebDriverPool;
 
 /**
  * Base class for TestNG-based test classes
  */
 public class TestNgTestBase {
 
-  private static URL gridHubUrl = null;
-  static String baseUrl;
-  private static Capabilities capabilities;
 
-  WebDriver driver;
-
-  @BeforeSuite
-  public void initTestSuite() throws IOException {
-    SuiteConfiguration config = new SuiteConfiguration();
-    baseUrl = config.getProperty("site.url");
-    if (config.hasProperty("grid.url") && !"".equals(config.getProperty("grid.url"))) {
-      gridHubUrl = new URL(config.getProperty("grid.url"));
+    @BeforeSuite
+    public void setUp(){
+        ScreenShooter.captureSuccessfulTests = false;
     }
-    capabilities = config.getCapabilities();
-  }
 
-  @BeforeMethod
-  public void initWebDriver() {
-    driver = WebDriverPool.DEFAULT.getDriver(gridHubUrl, capabilities);
-  }
+    @BeforeMethod
+    public void initWebDriver() {
 
-  @AfterMethod(alwaysRun = true)
-  public void tearDown() {
-    WebDriverPool.DEFAULT.dismissAll();
-  }
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void tearDown() {
+
+    }
 }

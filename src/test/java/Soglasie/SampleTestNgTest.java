@@ -1,26 +1,32 @@
 package Soglasie;
 
 import Soglasie.pages.CalcPage;
-import org.openqa.selenium.support.PageFactory;
-
+import com.codeborne.selenide.Selenide;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.io.IOException;
 
 public class SampleTestNgTest extends TestNgTestBase {
 
     private CalcPage calcPage;
 
-    @BeforeMethod
-    public void initPageObjects() {
-        calcPage = PageFactory.initElements(driver, CalcPage.class);    //создает экземпляр класса CalcPage  через фабрику selenium и инициалзация @FindBy
+
+    @DataProvider
+    public Object[][] getData() {
+        return new Object[][]{
+                {"2016"},
+/*                    {"2017"},
+                    {"2018"}*/
+        };
     }
 
-    @Test
-    public void calcTest() throws Exception {
+    @BeforeMethod
+    public void initPageObjects() {
+        calcPage = Selenide.open("avto/kalkulyator-kasko/#/car", CalcPage.class);
+    }
 
-        driver.get(baseUrl);  //переход на сайт
-        calcPage.open();      //переход на страницу   avto/kalkulyator-kasko/#/car
+    @Test(dataProvider = "getData")
+    public void calcTest(String year) throws Exception {
+        calcPage.inputCar(year);
     }
 }
