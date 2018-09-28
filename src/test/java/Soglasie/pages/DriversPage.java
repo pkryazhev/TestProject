@@ -20,7 +20,6 @@ public class DriversPage extends Page {
 
     public void drivers(){
 
-
     }
 
     public void open(){
