@@ -18,7 +18,7 @@ public class DriversPage extends Page {
     @FindBy(xpath = "//div[@class='b-calc-header__scale-text' and text()='Водители']")
     private SelenideElement circleOPen;
 
-    @FindBy(xpath = "//span[contains(@class, 'b-switcher__switcher')]")
+    @FindBy(xpath = "//span[@class='b-switcher__unchecked-val']")
     private SelenideElement driverSwitcher;
 
     @FindBy(xpath = "//div[contains(@class, 'b-driver-info__form-remark')]")
@@ -45,18 +45,33 @@ public class DriversPage extends Page {
     @FindBy(xpath = "//input[@placeholder='Контактный телефон']")
     private SelenideElement inputDriverPhoneNumber;
 
-    @FindBy(xpath = "//div[@class='b-autocomplete-address iblock']//input[@placeholder='Введите ваш город проживания']")
+    @FindBy(xpath = "//div[@class='b-driver-info ng-isolate-scope']//a[@data-val='Москва']")
     private SelenideElement inputDriverCity;
+
+    @FindBy(xpath = "//div[@class='u-mask-scope b-driver-info__confirm car'] //div[@class='b-checkbox__icon']")
+    private SelenideElement confirmCheckBox;
+
+    @FindBy(xpath = "//a[@class='c-calc__next button-filled submit_drivers']")
+    private SelenideElement acceptButton;
 
 
     public void setDriversList(){
+        //Без него работает только в debug-режиме
+        try
+        {
+            Thread.sleep(2000);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
         driverSwitcher.click();
         driverInfoLabel.waitUntil(Condition.visible, timeoutMsec);
     }
 
     public void setDriversConditions(String age, String exp){
-        driversMinAge.setValue(age).pressEnter();
-        driversMinExp.setValue(exp);
+        driversMinAge.setValue(age).pressTab();
+        driversMinExp.setValue(exp).pressTab();
     }
 
     public void setCredit(){
@@ -64,9 +79,10 @@ public class DriversPage extends Page {
     }
 
     public void setSateliteSystem(String sateliteSystem){
+        setSateliteSystem.waitUntil(Condition.visible, timeoutMsec);
         setSateliteSystem.click();
         inputSateliteSystem.setValue(sateliteSystem);
-        inputSateliteSystem.pressEnter();
+        inputSateliteSystem.pressTab();
     }
 
     public void setContactData(){
@@ -75,8 +91,14 @@ public class DriversPage extends Page {
         inputDriverName.pressTab();
         inputDriverPhoneNumber.setValue(Generator.getRandomPhoneNumber());
         inputDriverPhoneNumber.pressTab();
-        inputDriverCity.setValue(Generator.getRandomString());
-        inputDriverCity.pressTab();
+        inputDriverCity.click();
+    }
+
+    public void confirmDriversData(){
+        confirmCheckBox.waitUntil(Condition.visible, timeoutMsec);
+        confirmCheckBox.click();
+        acceptButton.click();
+
     }
 
     public void open(){

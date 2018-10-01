@@ -38,6 +38,6 @@ public class SampleTestNgTest extends TestNgTestBase {
         driversPage.setCredit();
         driversPage.setSateliteSystem(sateliteSystem);
         driversPage.setContactData();
-       // driversPage.drivers();
+        driversPage.confirmDriversData();
     }
 }
