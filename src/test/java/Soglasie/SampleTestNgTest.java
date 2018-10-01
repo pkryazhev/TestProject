@@ -16,7 +16,7 @@ public class SampleTestNgTest extends TestNgTestBase {
     @DataProvider
     public Object[][] getData() {
         return new Object[][]{
-                {"2016", "145", "550000", "32", "7"},
+                {"2016", "145", "550000", "32", "7", "DOZOR X"},
 /*                    {"2017"},
                     {"2018"}*/
         };
@@ -29,13 +29,15 @@ public class SampleTestNgTest extends TestNgTestBase {
     }
 
     @Test(dataProvider = "getData")
-    public void calcTest(String year, String power, String cost, String age, String exp) throws Exception {
+    public void calcTest(String year, String power, String cost, String age, String exp, String sateliteSystem) throws Exception {
 
         calcPage.inputCar(year, power, cost);
         driversPage.open();
         driversPage.setDriversList();
         driversPage.setDriversConditions(age, exp);
         driversPage.setCredit();
+        driversPage.setSateliteSystem(sateliteSystem);
+        driversPage.setContactData();
        // driversPage.drivers();
     }
 }
